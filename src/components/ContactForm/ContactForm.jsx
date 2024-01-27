@@ -1,7 +1,6 @@
 import { useState, useId } from 'react';
 import { useContacts } from 'hooks/useContacts';
 import { useFilter } from 'hooks/useFilter';
-
 import { Button, Form, Input, Label } from './ContactForm.styled';
 
 export const ContactForm = () => {
@@ -39,7 +38,7 @@ export const ContactForm = () => {
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    const contactData = { name: name.trimEnd(), number: number.trimEnd() };
+    const contactData = { name: name.trimEnd(), phone: number.trimEnd() };
 
     if (isInContacts(contactData.name)) {
       return alert(`${contactData.name} is in contacts!`);

@@ -1,32 +1,29 @@
+import { useEffect } from 'react';
 import { useContacts } from 'hooks/useContacts';
-import { useFilter } from 'hooks/useFilter';
 import { ContactItem } from 'components/ContactItem/ContactItem';
 import { List } from './ContactList.styled';
 import { Info } from 'components/Info/Info.styled';
 
 export const ContactList = () => {
-  const { contacts } = useContacts();
-  const { filterValue } = useFilter();
+  const { fetchContacts, filteredContacts, isLoading } = useContacts();
 
-  const getFilteredContacts = () => {
-    const filterToLowercase = filterValue.toLowerCase();
-
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filterToLowercase)
-    );
-  };
-
-  const filteredContacts = getFilteredContacts();
+  useEffect(() => {
+    fetchContacts();
+  }, [fetchContacts]);
 
   return (
-    <List>
-      {filteredContacts.length > 0 ? (
-        filteredContacts.map(({ id, name, number }) => (
-          <ContactItem key={id} id={id} name={name} number={number} />
-        ))
-      ) : (
+    <>
+      {isLoading && <Info>Loading...</Info>}
+      {filteredContacts.length > 0 && (
+        <List>
+          {filteredContacts.map(({ id, name, phone }) => (
+            <ContactItem key={id} id={id} name={name} number={phone} />
+          ))}
+        </List>
+      )}
+      {!isLoading && filteredContacts.length <= 0 && (
         <Info>There are no contacts</Info>
       )}
-    </List>
+    </>
   );
 };

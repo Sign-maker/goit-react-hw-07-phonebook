@@ -2,7 +2,7 @@ import { Button, ContactInfo, Item } from './ContactItem.styled';
 import { useContacts } from 'hooks/useContacts';
 
 export const ContactItem = ({ id, name, number }) => {
-  const { delContact } = useContacts();
+  const { deleteContact } = useContacts();
 
   return (
     <Item>
@@ -10,7 +10,7 @@ export const ContactItem = ({ id, name, number }) => {
         <span>{name}</span>
         <span>{number}</span>
       </ContactInfo>
-      <Button type="button" onClick={() => delContact(id)}>
+      <Button type="button" onClick={() => deleteContact(id)}>
         Delete
       </Button>
     </Item>
