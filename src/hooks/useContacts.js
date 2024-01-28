@@ -14,8 +14,9 @@ export const useContacts = () => {
     () => dispatch(operations.fetchContacts()),
     [dispatch]
   );
-  const addContact = contact => dispatch(operations.addContact(contact));
-  const deleteContact = id => dispatch(operations.deleteContact(id));
+  const addContact = contact =>
+    dispatch(operations.addContact(contact)).unwrap();
+  const deleteContact = id => dispatch(operations.deleteContact(id)).unwrap();
 
   const isLoading = useSelector(selectIsLoading);
   const contacts = useSelector(selectContacts);

@@ -4,6 +4,7 @@ import { ContactList } from './ContactList/ContactList';
 import { Container } from './Container/Container.styled';
 import { Title } from './Title/Title.styled';
 import { Subtitle } from './Subtitle/Subtitle.styled';
+import { ToastContainer } from 'react-toastify';
 
 export const App = () => {
   return (
@@ -13,6 +14,7 @@ export const App = () => {
       <Subtitle>Contacts</Subtitle>
       <Filter />
       <ContactList />
+      <ToastContainer />
     </Container>
   );
 };

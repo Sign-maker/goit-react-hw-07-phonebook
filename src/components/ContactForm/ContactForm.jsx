@@ -2,10 +2,12 @@ import { useState, useId } from 'react';
 import { useContacts } from 'hooks/useContacts';
 import { useFilter } from 'hooks/useFilter';
 import { Button, Form, Input, Label } from './ContactForm.styled';
+import { toast } from 'react-toastify';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const [adding, setAdding] = useState(false);
 
   const { contacts, addContact } = useContacts();
   const { setFilter } = useFilter();
@@ -36,7 +38,7 @@ export const ContactForm = () => {
     );
   };
 
-  const onSubmitHandler = event => {
+  const onSubmitHandler = async event => {
     event.preventDefault();
     const contactData = { name: name.trimEnd(), phone: number.trimEnd() };
 
@@ -44,7 +46,16 @@ export const ContactForm = () => {
       return alert(`${contactData.name} is in contacts!`);
     }
 
-    addContact(contactData);
+    try {
+      setAdding(true);
+      await addContact(contactData);
+      toast(`Contact ${name} added`);
+    } catch (error) {
+      toast.error(`Unable to add contact! ${error}`);
+    } finally {
+      setAdding(false);
+    }
+
     setFilter('');
     setName('');
     setNumber('');
@@ -72,8 +83,8 @@ export const ContactForm = () => {
         onChange={inputHandler}
         required
       />
-      <Button type="submit" disabled={!(name && number)}>
-        Add contact
+      <Button type="submit" disabled={!(name && number) || adding}>
+        {adding ? 'Adding...' : 'Add contact'}
       </Button>
     </Form>
   );
